@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>86429F4C-B450-487B-A3E3-EB0EC5CF6362</string>
+	<key>IDESourceControlProjectName</key>
+	<string>AutoCutout</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>9875FC52-6451-446E-90CE-EC65AD8F7ACF</key>
+		<string>https://github.com/agentlink/Lazy-Snapping-For-IOS.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>AutoCutout.xcodeproj/project.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>9875FC52-6451-446E-90CE-EC65AD8F7ACF</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/agentlink/Lazy-Snapping-For-IOS.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>9875FC52-6451-446E-90CE-EC65AD8F7ACF</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>9875FC52-6451-446E-90CE-EC65AD8F7ACF</string>
+			<key>IDESourceControlWCCName</key>
+			<string>AutoCutout</string>
+		</dict>
+	</array>
+</dict>
+</plist>

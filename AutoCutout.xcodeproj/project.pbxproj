@@ -9,12 +9,12 @@
 /* Begin PBXBuildFile section */
 		11067A6F16B7AC66005B795C /* graph.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 11067A6816B7AC66005B795C /* graph.cpp */; };
 		11067A7116B7AC66005B795C /* maxflow.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 11067A6B16B7AC66005B795C /* maxflow.cpp */; };
+		11321C33195FB92000B8DBD2 /* opencv2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 11321C32195FB92000B8DBD2 /* opencv2.framework */; };
 		1137E29616B40EA60007A316 /* CoreImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1137E29516B40EA60007A316 /* CoreImage.framework */; };
 		1137E29916B40EBB0007A316 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1137E29716B40EBB0007A316 /* CoreMedia.framework */; };
 		1137E29A16B40EBB0007A316 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1137E29816B40EBB0007A316 /* CoreVideo.framework */; };
 		1137E29C16B40ED20007A316 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1137E29B16B40ED20007A316 /* AVFoundation.framework */; };
 		116C916D16B444E3001C9880 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 116C916C16B444E3001C9880 /* MBProgressHUD.m */; };
-		1175A89F16B42176004B2EA9 /* opencv2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1175A89E16B42176004B2EA9 /* opencv2.framework */; };
 		118E625B16B80A4600B710DC /* JBCroppableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 118E625A16B80A4600B710DC /* JBCroppableView.m */; };
 		11BA83AE16528DAE0045ED92 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 11BA83AD16528DAE0045ED92 /* UIKit.framework */; };
 		11BA83B016528DAE0045ED92 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 11BA83AF16528DAE0045ED92 /* Foundation.framework */; };
@@ -44,13 +44,13 @@
 		11067A6816B7AC66005B795C /* graph.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = graph.cpp; sourceTree = "<group>"; };
 		11067A6916B7AC66005B795C /* graph.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = graph.h; sourceTree = "<group>"; };
 		11067A6B16B7AC66005B795C /* maxflow.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = maxflow.cpp; sourceTree = "<group>"; };
+		11321C32195FB92000B8DBD2 /* opencv2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = opencv2.framework; path = ../../Lib/opencv/opencv2.framework; sourceTree = "<group>"; };
 		1137E29516B40EA60007A316 /* CoreImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreImage.framework; path = System/Library/Frameworks/CoreImage.framework; sourceTree = SDKROOT; };
 		1137E29716B40EBB0007A316 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		1137E29816B40EBB0007A316 /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
 		1137E29B16B40ED20007A316 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		116C916B16B444E3001C9880 /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
 		116C916C16B444E3001C9880 /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
-		1175A89E16B42176004B2EA9 /* opencv2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = opencv2.framework; sourceTree = "<group>"; };
 		118E625716B801EF00B710DC /* instances.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = instances.h; sourceTree = "<group>"; };
 		118E625916B80A4600B710DC /* JBCroppableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JBCroppableView.h; sourceTree = "<group>"; };
 		118E625A16B80A4600B710DC /* JBCroppableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JBCroppableView.m; sourceTree = "<group>"; };
@@ -87,6 +87,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				11321C33195FB92000B8DBD2 /* opencv2.framework in Frameworks */,
 				1137E29C16B40ED20007A316 /* AVFoundation.framework in Frameworks */,
 				1137E29916B40EBB0007A316 /* CoreMedia.framework in Frameworks */,
 				1137E29A16B40EBB0007A316 /* CoreVideo.framework in Frameworks */,
@@ -94,7 +95,6 @@
 				11BA83B216528DAE0045ED92 /* CoreGraphics.framework in Frameworks */,
 				11BA83AE16528DAE0045ED92 /* UIKit.framework in Frameworks */,
 				11BA83B016528DAE0045ED92 /* Foundation.framework in Frameworks */,
-				1175A89F16B42176004B2EA9 /* opencv2.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -151,7 +151,7 @@
 		11BA83AC16528DAE0045ED92 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				1175A89E16B42176004B2EA9 /* opencv2.framework */,
+				11321C32195FB92000B8DBD2 /* opencv2.framework */,
 				1137E29B16B40ED20007A316 /* AVFoundation.framework */,
 				1137E29716B40EBB0007A316 /* CoreMedia.framework */,
 				1137E29816B40EBB0007A316 /* CoreVideo.framework */,
@@ -366,13 +366,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)\"",
-				);
-				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = /Users/agentlink/Documents/Project/Lib/opencv;
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_INPUT_FILETYPE = automatic;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "AutoCutout/AutoCutout-Prefix.pch";
 				HEADER_SEARCH_PATHS = "";
@@ -380,6 +380,7 @@
 				LIBRARY_SEARCH_PATHS = "";
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -388,13 +389,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)\"",
-				);
-				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = /Users/agentlink/Documents/Project/Lib/opencv;
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_INPUT_FILETYPE = automatic;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "AutoCutout/AutoCutout-Prefix.pch";
 				HEADER_SEARCH_PATHS = "";
@@ -402,6 +403,7 @@
 				LIBRARY_SEARCH_PATHS = "";
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

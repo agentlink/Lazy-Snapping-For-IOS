@@ -306,30 +306,30 @@ static CGFloat DegreesToRadians(CGFloat degrees) {return degrees * M_PI / 180;};
 
 - (UIImage *)imageRotatedByDegrees:(CGFloat)degrees
 {
-	// calculate the size of the rotated view's containing box for our drawing space
-	UIView *rotatedViewBox = [[UIView alloc] initWithFrame:CGRectMake(0,0,self.size.width, self.size.height)];
-	CGAffineTransform t = CGAffineTransformMakeRotation(DegreesToRadians(degrees));
-	rotatedViewBox.transform = t;
-	CGSize rotatedSize = rotatedViewBox.frame.size;
-	
-	// Create the bitmap context
-	UIGraphicsBeginImageContext(rotatedSize);
-	CGContextRef bitmap = UIGraphicsGetCurrentContext();
-	
-	// Move the origin to the middle of the image so we will rotate and scale around the center.
-	CGContextTranslateCTM(bitmap, rotatedSize.width/2, rotatedSize.height/2);
-	
-	//   // Rotate the image context
-	CGContextRotateCTM(bitmap, DegreesToRadians(degrees));
-	
-	// Now, draw the rotated/scaled image into the context
-	CGContextScaleCTM(bitmap, 1.0, -1.0);
-	CGContextDrawImage(bitmap, CGRectMake(-self.size.width / 2, -self.size.height / 2, self.size.width, self.size.height), [self CGImage]);
-	
-	UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
-	UIGraphicsEndImageContext();
+    // calculate the size of the rotated view's containing box for our drawing space
+    UIView *rotatedViewBox = [[UIView alloc] initWithFrame:CGRectMake(0,0,self.size.width, self.size.height)];
+    CGAffineTransform t = CGAffineTransformMakeRotation(DegreesToRadians(degrees));
+    rotatedViewBox.transform = t;
+    CGSize rotatedSize = rotatedViewBox.frame.size;
     
-	return newImage;
+    // Create the bitmap context
+    UIGraphicsBeginImageContext(rotatedSize);
+    CGContextRef bitmap = UIGraphicsGetCurrentContext();
+    
+    // Move the origin to the middle of the image so we will rotate and scale around the center.
+    CGContextTranslateCTM(bitmap, rotatedSize.width/2, rotatedSize.height/2);
+    
+    //   // Rotate the image context
+    CGContextRotateCTM(bitmap, DegreesToRadians(degrees));
+    
+    // Now, draw the rotated/scaled image into the context
+    CGContextScaleCTM(bitmap, 1.0, -1.0);
+    CGContextDrawImage(bitmap, CGRectMake(-self.size.width / 2, -self.size.height / 2, self.size.width, self.size.height), [self CGImage]);
+    
+    UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    return newImage;
 }
 
 @end
@@ -391,7 +391,7 @@ static CGFloat DegreesToRadians(CGFloat degrees) {return degrees * M_PI / 180;};
         colorSpace = CGColorSpaceCreateDeviceRGB();
     }
     
-    CGDataProviderRef provider = CGDataProviderCreateWithCFData((__bridge CFDataRef)data);
+    CGDataProviderRef provider = CGDataProviderCreateWithCFData(( CFDataRef)data);
     
     // Creating CGImage from cv::Mat
     CGImageRef imageRef = CGImageCreate(cvMat.cols,                                 //width
@@ -441,46 +441,66 @@ static CGFloat DegreesToRadians(CGFloat degrees) {return degrees * M_PI / 180;};
     return cvMat;
 }
 
-- (IplImage *)CreateIplImageFromUIImage:(UIImage *)image
+// NOTE 戻り値は利用後cvReleaseImage()で解放してください
+- (IplImage*) createIplImageFromUIImage:(UIImage*)image
 {
-    // Getting CGImage from UIImage
+    // CGImageをUIImageから取得
     CGImageRef imageRef = image.CGImage;
     
     CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
-    // Creating temporal IplImage for drawing
-    IplImage *iplimage = cvCreateImage(cvSize(image.size.width,image.size.height), IPL_DEPTH_8U, 4);
-    
-    // Creating CGContext for temporal IplImage
-    CGContextRef contextRef = CGBitmapContextCreate(iplimage->imageData, iplimage->width, iplimage->height,
-                                                    iplimage->depth, iplimage->widthStep,
-                                                    colorSpace, kCGImageAlphaPremultipliedLast|kCGBitmapByteOrderDefault);
-    // Drawing CGImage to CGContext
-    CGContextDrawImage(contextRef, CGRectMake(0, 0, image.size.width, image.size.height), imageRef);
+    // 一時的なIplImageを作成
+    IplImage *iplimage = cvCreateImage(cvSize(image.size.width, image.size.height),
+                                       IPL_DEPTH_8U,
+                                       4);
+    // CGContextを一時的なIplImageから作成
+    CGContextRef contextRef = CGBitmapContextCreate(iplimage->imageData,
+                                                    iplimage->width,
+                                                    iplimage->height,
+                                                    iplimage->depth,
+                                                    iplimage->widthStep,
+                                                    colorSpace,
+                                                    kCGImageAlphaPremultipliedLast|kCGBitmapByteOrderDefault);
+    // CGImageをCGContextに描画
+    CGContextDrawImage(contextRef,
+                       CGRectMake(0, 0, image.size.width, image.size.height),
+                       imageRef);
     CGContextRelease(contextRef);
     CGColorSpaceRelease(colorSpace);
     
-    // Creating result IplImage
+    // 最終的なIplImageを作成
     IplImage *ret = cvCreateImage(cvGetSize(iplimage), IPL_DEPTH_8U, 3);
-    cvCvtColor(iplimage, ret, CV_RGBA2BGR);
+    //	cvCvtColor(iplimage, ret, CV_RGBA2BGR);
+    cvCvtColor(iplimage, ret, CV_RGBA2RGB);
     cvReleaseImage(&iplimage);
     
     return ret;
 }
 
-- (UIImage *)CreateUIImageFromIplImage:(IplImage* )ipl_image
+// NOTE IplImageは事前にRGBモードにしておいてください。
+- (UIImage*) createUIImageFromIplImage:(IplImage*)image
 {
     CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
-    NSData* data = [NSData dataWithBytes: ipl_image->imageData length: ipl_image->imageSize];
-    CGDataProviderRef provider = CGDataProviderCreateWithCFData((__bridge CFDataRef)data);
-    CGImageRef imageRef = CGImageCreate(ipl_image->width, ipl_image->height,
-                                        ipl_image->depth, ipl_image->depth * ipl_image->nChannels, ipl_image->widthStep,
-                                        colorSpace, kCGImageAlphaNone|kCGBitmapByteOrderDefault,
-                                        provider, NULL, false, kCGRenderingIntentDefault);
-    UIImage* ret = [UIImage imageWithCGImage: imageRef];
+    // CGImageのためのバッファを確保
+    NSData *data = [NSData dataWithBytes:image->imageData length:image->imageSize];
+    CGDataProviderRef provider =
+    CGDataProviderCreateWithCFData((CFDataRef)data);
+    // IplImageのデータからCGImageを作成
+    CGImageRef imageRef = CGImageCreate(image->width,
+                                        image->height,
+                                        image->depth,
+                                        image->depth * image->nChannels,
+                                        image->widthStep,
+                                        colorSpace,
+                                        kCGImageAlphaNone|kCGBitmapByteOrderDefault,
+                                        provider,
+                                        NULL,
+                                        false,
+                                        kCGRenderingIntentDefault);
+    // UIImageをCGImageから取得
+    UIImage *ret = [UIImage imageWithCGImage:imageRef];
     CGImageRelease(imageRef);
     CGDataProviderRelease(provider);
     CGColorSpaceRelease(colorSpace);
-    
     return ret;
 }
 
@@ -536,8 +556,8 @@ static CGFloat DegreesToRadians(CGFloat degrees) {return degrees * M_PI / 180;};
     wshed = 0;
     prev_pt = {-1,-1};
     
-    SCALE = 4;
-	// Do any additional setup after loading the view, typically from a nib.
+    SCALE = 1;
+    // Do any additional setup after loading the view, typically from a nib.
 }
 
 - (void)didReceiveMemoryWarning
@@ -555,10 +575,10 @@ static CGFloat DegreesToRadians(CGFloat degrees) {return degrees * M_PI / 180;};
     UIGraphicsEndImageContext();
     
     _imageView.image = [image scaleToSize:[self frameForImage:image inImageViewAspectFit:_imageView].size];
-    lazyImage = [self CreateIplImageFromUIImage:image];
-    lazyImageDraw = [self CreateIplImageFromUIImage:image];
+    lazyImage = [self createIplImageFromUIImage:_imageView.image ];
+    lazyImageDraw = [self createIplImageFromUIImage:_imageView.image ];
     
-    img0 = [self CreateIplImageFromUIImage:image];
+    img0 = [self createIplImageFromUIImage:_imageView.image ];
     
     img = cvCloneImage(img0);
     // 用于显示的原图像
@@ -629,7 +649,8 @@ static CGFloat DegreesToRadians(CGFloat degrees) {return degrees * M_PI / 180;};
                 pimage+=3;
             }
         }
-        _imageView.image = [self CreateUIImageFromIplImage:showImg];
+        
+        _imageView.image = [self createUIImageFromIplImage:showImg];
         
         cvReleaseImage(&imageLS);
         cvReleaseImage(&mask);
@@ -712,7 +733,7 @@ static CGFloat DegreesToRadians(CGFloat degrees) {return degrees * M_PI / 180;};
     
     cvAddWeighted( wshed, 0.5, img_gray, 0.5, 0, wshed );
     // 可以注释掉看下效果
-    _imageView.image = [self CreateUIImageFromIplImage:wshed];
+    _imageView.image = [self createUIImageFromIplImage:wshed];
     cvReleaseMemStorage( &storage );
     cvReleaseMat( &color_tab );
 }
@@ -728,7 +749,7 @@ static CGFloat DegreesToRadians(CGFloat degrees) {return degrees * M_PI / 180;};
      
      // Show the HUD while the provided method executes in a new thread
      [HUD showWhileExecuting:@selector(delBackground) onTarget:self withObject:nil animated:YES];**/
-    [self waterShed];
+    [self lazySnapping];
 }
 
 - (IBAction)preSwitch:(id)sender {
@@ -741,20 +762,31 @@ static CGFloat DegreesToRadians(CGFloat degrees) {return degrees * M_PI / 180;};
 
 - (void)drawLineLazySnapping:(CGPoint)locationPoint{
     if (_imageView.image != nil) {
-        CvPoint pt = cv::Point2f(locationPoint.x * 2,locationPoint.y * 2);
+        
+        CGRect imageFrame = [self frameForImage:_imageView.image inImageViewAspectFit:_imageView];
+        
+        CvPoint pt = cv::Point2f(locationPoint.x - imageFrame.origin.x,locationPoint.y - imageFrame.origin.y);
+        if( prev_pt.x < 0 )
+            prev_pt = pt;
+        
         if(currentMode == 0){//foreground
             forePts.push_back(cv::Point2f(pt.x/SCALE,pt.y/SCALE));
         }else{//background
             backPts.push_back(cv::Point2f(pt.x/SCALE,pt.y/SCALE));
         }
-        cvCircle(lazyImageDraw,cv::Point2f(pt.x, pt.y),2,paintColor[currentMode]);
-        _imageView.image = [self CreateUIImageFromIplImage:lazyImageDraw];
+        
+        cvLine(lazyImageDraw,prev_pt,pt,paintColor[currentMode],5,8,0);
+        
+        _imageView.image = [self createUIImageFromIplImage:lazyImageDraw];
     }
+    
 }
 
 - (void)drawLineWatershed:(CGPoint)locationPoint{
     if (_imageView.image != nil) {
-        CvPoint pt = cv::Point2f(locationPoint.x * 2,locationPoint.y * 2);
+        CGRect imageFrame = [self frameForImage:_imageView.image inImageViewAspectFit:_imageView];
+        
+        CvPoint pt = cv::Point2f(locationPoint.x - imageFrame.origin.x,locationPoint.y - imageFrame.origin.y);
         if( prev_pt.x < 0 )
             prev_pt = pt;
         cvLine(marker_mask, prev_pt, pt, cvScalarAll(255), 5, 8, 0);
@@ -762,20 +794,21 @@ static CGFloat DegreesToRadians(CGFloat degrees) {return degrees * M_PI / 180;};
         cvLine(img, prev_pt, pt, cvScalarAll(255), 5, 8, 0);
         // img标记只便于用户观察
         prev_pt = pt;
-        _imageView.image = [self CreateUIImageFromIplImage:img];
+        _imageView.image = [self createUIImageFromIplImage:img];
     }
 }
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
     CGPoint locationPoint = [[touches anyObject] locationInView:self.imageView];
-    prev_pt = cv::Point2f(locationPoint.x * 2,locationPoint.y * 2);
+    CGRect imageFrame = [self frameForImage:_imageView.image inImageViewAspectFit:_imageView];
+    prev_pt = cv::Point2f(locationPoint.x - imageFrame.origin.x,locationPoint.y - imageFrame.origin.y);
 }
 
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
 {
     CGPoint locationPoint = [[touches anyObject] locationInView:self.imageView];
-    [self drawLineWatershed:locationPoint];
+    [self drawLineLazySnapping:locationPoint];
 }
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
